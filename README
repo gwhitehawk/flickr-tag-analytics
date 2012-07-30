@@ -1,0 +1,36 @@
+This application is for parsing flickr webpages and extracting (mainly) the tag information, which is then saved in text files. Scripts are then run to process these files and find the relationships between tags. A .dot graphviz file, and the corresponding .ps graph drawing are generated.
+
+Usage:
+1. To download data:
+    python parse_data.py [year] [month] [day] [target_dir]
+
+Example: python 2012 7 28 explore
+
+Flickr Explore data for the specified date are saved in directory, target_dir. The corresponding text file is titled explore_[year]_[month]_[day].txt. If day==0, data for the whole month are processed. To download only a portion of the data for a given date, edit PAGES variable in parse_data.py script. For each day, flickr explores 500 photos, and presents them in 50 pages. By default, the script processes all pages but it takes a while.
+
+In the output data file, each block is organized as follows:
+[link-to-photo]
+[photo-title]
+[tag_1]
+.
+.
+.
+[tag_n]\n
+
+2. To process data:
+    ./build.sh [number-of-related-tags] [minimum-number-of-occurrences] [source path] [output file]
+
+Example: ./build.sh 10 1 test/ graph
+
+Script should be made executable.
+Params: 
+number-of-related-tags: Number of tags with the most simultaneous occurences with a given tag, that should be displayed in the output file.
+
+minimum-number-of-occurences: Number of times a tag should be present among all processed pictures.
+
+source path: If a single file shall be processed, then list the path to file, if all files in a dir shall be processed, list the path to dir.
+
+output file: Without extension. Three files: [output file].txt, [output file].dot, [output file].ps are generated.
+
+Rows of [output file].txt are in the following format:
+[tag]: [number of occurences]: ([rel_tag_1], [number of common occur]) ... ([rela_tag_n], [number of common occur])
